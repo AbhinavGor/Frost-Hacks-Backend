@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
+	googleId: {
+		type: String,
+		require: true
+	},
 	userName: {
 		type: String,
 		required: true
@@ -14,6 +18,10 @@ const userSchema = mongoose.Schema({
 	dob: {
 		type: Date,
 	},
+	isDoc: {
+		type: Boolean,
+		default: false
+	},
 	dateJoined: {
 		type: Date,
 		default: Date.now()
@@ -22,7 +30,7 @@ const userSchema = mongoose.Schema({
 		token: {
 			type: String,
 			required: true
-		}
+		},
 		dateGenerated: {
 			type: Date,
 			default: Date.now()
