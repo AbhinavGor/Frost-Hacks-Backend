@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const userSchema = mongoose.Schema({
 	googleId: {
 		type: String,
-		require: true
+		require: true,
 	},
 	userName: {
 		type: String,
@@ -30,10 +30,6 @@ const userSchema = mongoose.Schema({
 		token: {
 			type: String,
 			required: true
-		},
-		dateGenerated: {
-			type: Date,
-			default: Date.now()
 		}
 	}]
 });

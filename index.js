@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(session({
-	secret: process.env.SESION_SECRET,
+	secret: process.env.SESSION_SECRET,
 	saveUninitialized: true,
 	resave: true,
 	cookie: { maxAge: 60000 }

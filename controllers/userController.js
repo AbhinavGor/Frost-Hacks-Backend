@@ -20,20 +20,25 @@ module.exports = {
 		try{
 			const foundUser = await User.findOne({ email: email });
 			if(foundUser){
-				//generate token
-				const token = jwt.sign({ _id: foundUser.id.toString(), googleId: foundUser.googleId, isDoc: foundUser.isDoc.toString() });
-				const genToken = { token: token, dateGenerated: Date.now() };
-				foundUser.tokens.push(genToken);
+				console.log(foundUser);
+				
+				const token = jwt.sign({ _id: foundUser._id.toString(), googleId: foundUser.googleId, isDoc: foundUser.isDoc.toString() }, process.env.JWT_SECRET);
+				foundUser.authTokens = foundUser.authTokens.concat({ token });
 
 				await foundUser.save();
 
-				res.status(200).send({ foundUser, genToken });
+				res.status(200).send(foundUser);
 							
 			} else {
 				const newUser = new User({ googleId, email, userName, dob });	
 				await newUser.save();
 
 				//generate jwt
+				const token = jwt.sign({ _id: newUser._id.toString(), googleId: newUser.googleId.toString(), isDoc: newUser.isDoc.toString() }, process.env.JWT_SECRET);
+				newUser.authTokens = newUser.authTokens.concat({ token });
+
+				await newUser.save();
+
 				res.status(200).send(newUser);
 			}
 		} catch (err){

@@ -47,6 +47,22 @@ module.exports = {
 		} catch(err) {
 			res.status(500).send({ "message": `No appointment with ID ${aptId} found!` });
 		}
+	},
+	getApptsAccTypes : async (req, res) => {
+		try {
+			const { id, type } = req.params;
+			
+			if(Number(type) == 0){
+				let fApts = await Appointments.find({ docId: mongoose.Types.Schema.ObjectId(id.toString()) });
+			} else if (Number(type) == 1) {
+				let fApts  = await Appointments.find({ userId: mongoose.Types.Schema.ObjectId(id.toString()) });	
+			} else {
+				res.status(400).send({ "message" : `Invalid query type ${type}` });
+			}
+			
+			res.status(200).send(fApts);
+		}catch(err){
+			res.status(500).send(err);
+		}
 	}
-}
-		
+}	
